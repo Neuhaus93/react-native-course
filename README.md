@@ -6,7 +6,7 @@
 
 **Instructor**: Stephen Grider
 
-**Quick overall: **This course includes the fundamentals of React, including JSX, "props", "state", and event handling. 
+**Quick overall:** This course includes the fundamentals of React, including JSX, "props", "state", and event handling. 
 
 
 
