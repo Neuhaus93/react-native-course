@@ -16,6 +16,7 @@ const SearchBar = (props: Props) => {
       <Feather name="search" style={styles.iconStyle} />
       <TextInput
         autoCorrect={false}
+        autoCapitalize="none"
         placeholder="Search"
         style={styles.inputStyle}
         value={term}
