@@ -30,7 +30,7 @@ const SearchBar = (props: Props) => {
 const styles = StyleSheet.create({
   backgroundStyle: {
     backgroundColor: "#F0EEEE",
-    marginTop: 10,
+    marginVertical: 10,
     height: 50,
     borderRadius: 5,
     marginHorizontal: 15,
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   iconStyle: {
     fontSize: 35,
     alignSelf: "center",
-    marginHorizontal: 15,
+    marginHorizontal: 10,
   },
   inputStyle: {
     flex: 1,
