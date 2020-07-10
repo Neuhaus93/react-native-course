@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  Button,
   TouchableOpacity,
 } from 'react-native';
 import {
@@ -20,21 +19,17 @@ interface Props {
 }
 
 const IndexScreen = ({ navigation }: Props) => {
-  const { state, addBlogPost, deleteBlogPost } = useContext<BlogContextType>(
-    BlogContext
-  );
+  const { state, deleteBlogPost } = useContext<BlogContextType>(BlogContext);
 
   return (
     <View>
-      <Button title='Add Post' onPress={() => addBlogPost()} />
       <FlatList
         data={state}
         keyExtractor={(blogPost) => blogPost.title}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              onPress={() => navigation.navigate('Show', { id: item.id })}
-            >
+              onPress={() => navigation.navigate('Show', { id: item.id })}>
               <View style={styles.row}>
                 <Text style={styles.title}>{item.title}</Text>
                 <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
@@ -53,7 +48,8 @@ IndexScreen.navigationOptions = ({ navigation }: Props) => {
   return {
     headerRight: () => (
       <TouchableOpacity onPress={() => navigation.navigate('Create')}>
-        <Feather name='plus' size={30} />
+        {/* <Feather name='plus' style={styles.icon} /> */}
+        <Feather name='plus' size={30} style={{ marginRight: 10 }} />
       </TouchableOpacity>
     ),
   };

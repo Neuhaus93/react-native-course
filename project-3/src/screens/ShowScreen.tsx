@@ -1,32 +1,55 @@
-import React, { useContext } from 'react';
-import { NavigationScreenProp } from 'react-navigation';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useContext } from "react";
+import { NavigationScreenProp } from "react-navigation";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 import {
   Context as BlogContext,
   BlogContextType,
   BlogPost,
-} from '../context/BlogContext';
+} from "../context/BlogContext";
 
 interface Props {
-  navigation: NavigationScreenProp<BlogPost>;
+  navigation: NavigationScreenProp<any>;
 }
 
-const ShowScreen = (props: Props) => {
-  const { navigation } = props;
+const ShowScreen = ({ navigation }: Props) => {
   const { state } = useContext<BlogContextType>(BlogContext);
 
   const blogPost = state.find(
-    (blogPost) => blogPost.id === navigation.getParam('id')
+    (blogPost) => blogPost.id === navigation.getParam("id")
   );
 
   return (
     <View>
       <Text>{blogPost?.title}</Text>
+      <Text>{blogPost?.content}</Text>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+ShowScreen.navigationOptions = ({ navigation }: Props) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("Edit", { id: navigation.getParam("id") })
+        }>
+        <FontAwesome
+          style={styles.icon}
+          name='pencil'
+          size={30}
+          color='black'
+        />
+      </TouchableOpacity>
+    ),
+  };
+};
+
+const styles = StyleSheet.create({
+  icon: {
+    marginRight: 10,
+  },
+});
 
 export default ShowScreen;

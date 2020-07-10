@@ -12,7 +12,12 @@ interface ActionProps {
 }
 
 interface Action<T extends ActionProps> {
-  (dispatch: Dispatch<T>): (arg1?: any, arg2?: any) => void;
+  (dispatch: Dispatch<T>): (
+    arg1?: any,
+    arg2?: any,
+    arg3?: any,
+    callback?: any
+  ) => void;
 }
 
 export { Dispatch, Reducer, ActionProps, Action };
