@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { NavigationScreenProp } from 'react-navigation';
 import {
   View,
@@ -6,48 +6,48 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
-import { Text, Input, Button } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import Spacer from '../components/Spacer';
+import AuthForm from '../components/AuthForm';
 
-interface Props {
+import { Context as AuthContext } from '../context/AuthContext';
+
+interface Prop {
   navigation: NavigationScreenProp<any>;
 }
 
-const SignupScreen = ({ navigation }: Props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const SignupScreen = ({ navigation }: Prop) => {
+  const { state, signup } = useContext(AuthContext);
+
+  const formProps = {
+    headerText: 'Sign Up for Tracker',
+    errorMessage: state.errorMessage,
+    submitButtonText: 'Sign Up',
+    onSubmit: signup,
+  };
 
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView contentContainerStyle={styles.container}>
+        <AuthForm
+          headerText='Sign Up for Tracker'
+          errorMessage={state.errorMessage}
+          submitButtonText='Sign Up'
+          onSubmit={signup}
+        />
+        {/* <AuthForm {...formProps} /> */}
         <View>
-          <Spacer>
-            <Text h3>Sign Up for Tracker</Text>
-          </Spacer>
-
-          <Input
-            label='Email'
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize='none'
-            autoCorrect={false}
-          />
-          <Spacer />
-          <Input
-            secureTextEntry
-            label='Password'
-            value={password}
-            onChangeText={setPassword}
-            autoCapitalize='none'
-            autoCorrect={false}
-          />
-
-          <Spacer>
-            <Button title='Sign Up' />
-          </Spacer>
+          <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
+            <Spacer>
+              <Text style={styles.link}>
+                Already have an account? Sign in instead
+              </Text>
+            </Spacer>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -62,10 +62,10 @@ SignupScreen.navigationOptions = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // borderColor: 'red',
-    // borderWidth: 10,
-    // justifyContent: 'center',
     paddingVertical: 100,
+  },
+  link: {
+    color: 'blue',
   },
 });
 

@@ -1,13 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
+// Provider
 import { Provider as AuthProvider } from './src/context/AuthContext';
 
 // Navigators
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import {
+  createAppContainer,
+  createSwitchNavigator,
+  NavigationScreenProp,
+} from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { setNavigator } from './src/navigationRef';
 
 // Screens
 import AccountScreen from './src/screens/AccountScreen';
@@ -37,7 +41,11 @@ const App = createAppContainer(switchNavigator);
 export default () => {
   return (
     <AuthProvider>
-      <App />
+      <App
+        ref={(navigator: any) => {
+          setNavigator(navigator);
+        }}
+      />
     </AuthProvider>
   );
 };

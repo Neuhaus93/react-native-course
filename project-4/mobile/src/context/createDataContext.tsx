@@ -1,12 +1,26 @@
 import React, { useReducer } from 'react';
+import { NavigationScreenProp } from 'react-navigation';
 
-export default (reducer, actions, defaultValue) => {
-  const Context = React.createContext();
+interface Reducer<S, T> {
+  (state: S, action: T): S;
+}
 
-  const Provider = ({ children }) => {
+interface ProviderProp {
+  // children: () => JSX.Element | null;
+  children: any;
+}
+
+const createDataContext = <S extends any, T>(
+  reducer: Reducer<S, T>,
+  actions: any,
+  defaultValue: any
+) => {
+  const Context = React.createContext({} as any);
+
+  const Provider = ({ children }: ProviderProp) => {
     const [state, dispatch] = useReducer(reducer, defaultValue);
 
-    const boundActions = {};
+    const boundActions = {} as any;
     for (let key in actions) {
       boundActions[key] = actions[key](dispatch);
     }
@@ -20,3 +34,7 @@ export default (reducer, actions, defaultValue) => {
 
   return { Context, Provider };
 };
+
+export { Reducer };
+
+export default createDataContext;
