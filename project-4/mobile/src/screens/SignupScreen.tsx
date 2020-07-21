@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import { NavigationScreenProp } from 'react-navigation';
 import {
-  View,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
-import { Text } from 'react-native-elements';
-import Spacer from '../components/Spacer';
+import { NavigationEvents } from 'react-navigation';
+
+// Components
 import AuthForm from '../components/AuthForm';
+import NavLink from '../components/NavLink';
 
 import { Context as AuthContext } from '../context/AuthContext';
 
@@ -19,19 +19,13 @@ interface Prop {
 }
 
 const SignupScreen = ({ navigation }: Prop) => {
-  const { state, signup } = useContext(AuthContext);
-
-  const formProps = {
-    headerText: 'Sign Up for Tracker',
-    errorMessage: state.errorMessage,
-    submitButtonText: 'Sign Up',
-    onSubmit: signup,
-  };
+  const { state, signup, clearErrorMessage } = useContext(AuthContext);
 
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      <NavigationEvents onWillFocus={clearErrorMessage} />
       <ScrollView contentContainerStyle={styles.container}>
         <AuthForm
           headerText='Sign Up for Tracker'
@@ -39,16 +33,10 @@ const SignupScreen = ({ navigation }: Prop) => {
           submitButtonText='Sign Up'
           onSubmit={signup}
         />
-        {/* <AuthForm {...formProps} /> */}
-        <View>
-          <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
-            <Spacer>
-              <Text style={styles.link}>
-                Already have an account? Sign in instead
-              </Text>
-            </Spacer>
-          </TouchableOpacity>
-        </View>
+        <NavLink
+          routeName='Signin'
+          text='Already have an account? Sign in instead!'
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -63,9 +51,6 @@ SignupScreen.navigationOptions = () => {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 100,
-  },
-  link: {
-    color: 'blue',
   },
 });
 
